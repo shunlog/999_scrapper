@@ -6,12 +6,7 @@ import requests
 
 HOST = 'https://999.md'
 
-
-
-def get_articles_in_category(category_page, page=1, max_pages=3):
-    if page == max_pages:
-        return []
-
+def get_articles_in_category(category_page, page=1, max_page=3):
     def is_last_page(soup):
         paginator = soup.find("nav", "paginator")
         pages = paginator.find_all("li")
@@ -29,20 +24,16 @@ def get_articles_in_category(category_page, page=1, max_pages=3):
         soup = BeautifulSoup(html, 'lxml')
         return soup
 
-    articles = []
-    soup = soup_page(page)
+    if page >= max_page:
+        return []
 
+    soup = soup_page(page)
     if is_last_page(soup):
         return []
 
     articles = get_article_links(soup)
-
-    return articles + get_articles_in_category(category_page, page+1, max_pages)
-
+    return articles + get_articles_in_category(category_page, page+1, max_page)
 
 category_page = HOST + "/ro/list/transport/cars"
-page = 641
-articles = get_articles_in_category(category_page)
+articles = get_articles_in_category(category_page, 3, 5)
 ic(articles)
-
-# mbed()
