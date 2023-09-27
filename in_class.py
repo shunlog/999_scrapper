@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from bs4 import BeautifulSoup
-from icecream import ic
 import requests
 
 
@@ -43,6 +42,7 @@ def get_article_urls(category_page, page_num=1, max_page_num=50):
     links = get_urls_from_page_soup(soup)
     return links + get_article_urls(category_page, page_num+1, max_page_num)
 
-category_page = "https://999.md/ru/list/real-estate/apartments-and-rooms?o_30_241=894&applied=1&eo=12900&eo=12912&eo=12885&eo=13859&ef=32&ef=33&o_33_1=776"
-articles = get_article_urls(category_page, max_page_num=2)
-ic(articles)
+if __name__ == '__main__':
+    category_page = "https://999.md/ro/list/transport/cars"
+    articles = get_article_urls(category_page, max_page_num=2)
+    print('\n'.join(articles))
