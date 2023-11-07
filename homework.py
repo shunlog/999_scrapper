@@ -24,7 +24,9 @@ def get_info_from_article_soup(soup):
     info['category'] = breadcrumbs[-3]
 
     info['subcategory'] = breadcrumbs[-2]
-    info['article_description'] = soup.find("div", attrs={'itemprop': "description"}).get_text(strip=True)
+
+    desc_div = soup.find("div", attrs={'itemprop': "description"})
+    info['article_description'] = desc_div.get_text(strip=True) if desc_div else None
 
     properties_dict = []
     props_ls = soup.find_all("li", itemprop="additionalProperty")
