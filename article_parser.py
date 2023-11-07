@@ -12,7 +12,7 @@ def get_soup_from_url(url):
     soup = BeautifulSoup(html, 'lxml')
     return soup
 
-def get_info_from_article_soup(soup):
+def get_info_from_article_soup(soup) -> dict:
     '''For the soup of an article url like "https://999.md/ro/73960104",
     return a dictionary with all the relevant information found on the page.
     '''
@@ -62,8 +62,7 @@ def get_info_from_article_soup(soup):
 def get_json_from_article_url(url):
     soup = get_soup_from_url(url)
     info_dict = get_info_from_article_soup(soup)
-    json_str = json.dumps(info_dict, indent=4)
-    return json_str
+    return json.dumps(info_dict, indent=4)
 
 if __name__ == '__main__':
     url = "https://999.md/ro/83797072"
