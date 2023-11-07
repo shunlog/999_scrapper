@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def get_article_urls(category_page, page_num=1, max_page_num=50):
+def get_article_urls_from_category(category_page, page_num=1, max_page_num=2):
     '''Given a category page like this "https://999.md/ro/list/transport/cars",
     return the list of links in that category
     from the first page up until the last page, or until `max_page_num`, whichever is lower.
@@ -40,9 +40,9 @@ def get_article_urls(category_page, page_num=1, max_page_num=50):
         return []
 
     links = get_urls_from_page_soup(soup)
-    return links + get_article_urls(category_page, page_num+1, max_page_num)
+    return links + get_article_urls_from_category(category_page, page_num+1, max_page_num)
 
 if __name__ == '__main__':
     category_page = "https://999.md/ro/list/transport/cars"
-    articles = get_article_urls(category_page, max_page_num=2)
+    articles = get_article_urls_from_category(category_page, max_page_num=2)
     print('\n'.join(articles))

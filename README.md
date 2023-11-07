@@ -1,12 +1,24 @@
 # 999 scrapper
 
-`example_links.txt` contains a sample output of the following:
+The main functions:
+- `get_article_urls_from_category` 
+- `get_json_from_article_url`
+
+`get_article_urls_from_category` is used in the following way:
 ``` sh
-./in_class.py > example_links.txt
+>>> category = "https://999.md/ro/list/transport/cars" 
+>>> get_article_urls_from_category(category)
+['https://999.md/ro/83893186', 'https://999.md/ro/84871503', 'https://999.md/ro/83602507', 'https://999.md/ro/84564679', 'https://999.md/ro/84464873', 'https://999.md/ro/81106087', 'https://999.md/ro/84871496', 'https://999.md/ro/84713023', 'https://999.md/ro/81866162', 'https://999.md/ro/84545477', 'https://999.md/ro/84158846', 'https://999.md/ro/84381141', 'https://999.md/ro/84781403', 'https://999.md/ro/82731994', 'https://999.md/ro/84508439', 'https://999.md/ro/81845397', 'https://999.md/ro/84614158', 'https://999.md/ro/81622028']
+
 ```
 
 
-`homework.py` outputs a JSON like this (for example for [this article](https://999.md/ro/83797072)):
+`get_json_from_article_url` is used in the following way:
+
+``` sh
+>>> url = 'https://999.md/ro/81845397'
+>>> print(get_json_from_article_url(url))
+```
 
 ``` json
 {
@@ -23,61 +35,7 @@
             "name": "Nivelul",
             "value": "10"
         },
-        {
-            "name": "Num\u0103r de nivele",
-            "value": "11"
-        },
-        {
-            "name": "Num\u0103rul de camere",
-            "value": "Apartament cu 2 camere"
-        },
-        {
-            "name": "Autorul anun\u021bului",
-            "value": "Agen\u021bie"
-        },
-        {
-            "name": "Fond locativ",
-            "value": "Construc\u0163ii noi"
-        },
-        {
-            "name": "Gata de intrare"
-        },
-        {
-            "name": "Mobilat"
-        },
-        {
-            "name": "Tehnic\u0103 de uz casnic"
-        },
-        {
-            "name": "\u00cenc\u0103lzire autonom\u0103"
-        },
-        {
-            "name": "Aparat de aer condi\u021bionat"
-        },
-        {
-            "name": "Geamuri termopan"
-        },
-        {
-            "name": "Parchet"
-        },
-        {
-            "name": "U\u0219\u0103 blindat\u0103"
-        },
-        {
-            "name": "Linie telefonic\u0103"
-        },
-        {
-            "name": "Interfon"
-        },
-        {
-            "name": "Internet"
-        },
-        {
-            "name": "Cablu TV"
-        },
-        {
-            "name": "Ascensor"
-        },
+        ...
         {
             "name": "Teren de joac\u0103"
         }
@@ -108,4 +66,19 @@
     },
     "phone_number": "+37369132328"
 }
+```
+
+# RabbitMQ
+
+The files `producer.py` and `consumer.py` use RabbitMQ to respectively queue and parse article url's,
+and save them in files like this:`
+
+``` sh
+downloaded
+├── 55283983.json
+├── 71996588.json
+├── 72034970.json
+├── 75885230.json
+├── 76960616.json
+...
 ```

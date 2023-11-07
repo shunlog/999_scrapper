@@ -47,8 +47,11 @@ def get_info_from_article_soup(soup) -> dict:
     for p, c in zip(soup.find_all("span", itemprop="price")[:3], soup.find_all("span", itemprop='priceCurrency')[:3]):
         prices.append({'currency': c['content'],
                        'price': p['content']})
-    info['price'] = prices[0]
-    info['converted_price'] = prices[1:]
+    if prices:
+        info['price'] = prices[0]
+        info['converted_price'] = prices[1:]
+    else:
+        info['price'] = None
 
     info['address'] = {'country': soup.find(itemprop='addressCountry')['content'],
                        'locality': [i['content'] for i in soup.find_all(itemprop='addressLocality')]}
