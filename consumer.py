@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import os
+import sys
+import threading
 import pika
 from article_parser import get_json_from_article_url
 
@@ -24,13 +26,24 @@ def callback(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
     print(" [x] Done")
 
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host='localhost'))
-channel = connection.channel()
-channel.queue_declare(queue=QUEUE, durable=True)
 
-print(' [*] Waiting for messages. To exit press CTRL+C')
+def start_consuming():
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host='localhost'))
+    channel = connection.channel()
+    channel.queue_declare(queue=QUEUE, durable=True)
 
-channel.basic_qos(prefetch_count=1)
-channel.basic_consume(queue=QUEUE, on_message_callback=callback)
-channel.start_consuming()
+    print(' [*] Waiting for messages. To exit press CTRL+C')
+
+    channel.basic_qos(prefetch_count=1)
+    channel.basic_consume(queue=QUEUE, on_message_callback=callback)
+
+    channel.start_consuming()
+
+
+if __name__ == '__main__':
+
+    n_threads = int(sys.argv[1]) or 1
+
+    for _ in range(n_threads):
+        threading.Thread(target=start_consuming).start()
